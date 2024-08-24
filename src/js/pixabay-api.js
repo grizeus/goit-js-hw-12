@@ -5,7 +5,7 @@ const BASE_URL = "https://pixabay.com/api";
 
 axios.defaults.baseURL = BASE_URL;
 
-export default function fetchFrom(query) {
+export default async function fetchFrom(query) {
   const params = {
     key: API_KEY,
     q: String(query),
