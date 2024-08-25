@@ -1,0 +1,25 @@
+/*
+* iziToast | v1.4.0
+* http://izitoast.marcelodolce.com
+* by Marcelo Dolce.
+*/
+.iziToast.iziToast-theme-dark .iziToast-message {
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0.04em;
+  color: #fafafb;
+}
+.iziToast.iziToast-theme-dark .iziToast-close {
+  padding-right: 30px;
+  background: url(../img/close.svg) no-repeat 50% 50%;
+  background-size: 18px;
+}
+.iziToast.iziToast-theme-dark .iziToast-icon {
+  color: #fafafb;
+}
+.iziToast.iziToast-color-red {
+  background: #ef4040;
+  border-color: #ef4040;
+}
