@@ -25,7 +25,6 @@ searchButton.addEventListener("click", async e => {
   const res = await fetchFrom(searchQuery);
   loader.classList.toggle("visually-hidden");
   if (parseInt(res.totalHits) > 0) {
-    console.log(res);
     renderGallery(res.hits);
   } else {
     clearGallery();
