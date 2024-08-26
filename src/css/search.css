@@ -1,8 +1,5 @@
-:root {
-  --cubic: cubic-bezier(0.4, 0, 0.2, 1);
-  --sky-blue: #4e75ff;
-  --pale-grey: #808080;
-}
+@import url('./root.css');
+
 .search-container {
   display: flex;
   flex-direction: column;
@@ -17,7 +14,7 @@
 }
 
 .search-input {
-  font-family: "Montserat", sans-serif;
+  font-family: inherit;
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;

@@ -1,0 +1,28 @@
+.sl-wrapper {
+  background: rgba(46, 47, 66, 0.8);
+}
+.sl-wrapper .sl-counter {
+  top: 16px;
+  left: 16px;
+  color: #fff;
+}
+.sl-wrapper .sl-close {
+  top: 16px;
+  right: 16px;
+  color: #fff;
+}
+.sl-wrapper .sl-navigation button {
+  color: #fff;
+  font: inherit;
+  width: 24px;
+  height: 24px;
+  transform: translateY(50%);
+}
+.sl-wrapper .sl-navigation button.sl-next {
+  right: 16px;
+  font-size: 36px;
+}
+.sl-wrapper .sl-navigation button.sl-prev {
+  left: 16px;
+  font-size: 36px;
+}
