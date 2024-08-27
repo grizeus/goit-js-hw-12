@@ -41,8 +41,8 @@
   color: var(--pale-grey);
 }
 
-.search-btn {
-  font-family: "Montserat", sans-serif;
+.btn {
+  font-family: inherit;
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
@@ -53,10 +53,18 @@
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
-  width: 90px;
   transition: background-color 250ms var(--cubic) 0ms;
 }
 
-.search-btn:hover {
+.search-btn {
+  width: 90px;
+}
+
+.load-btn {
+  margin-top: 32px;
+  width: 125px;
+}
+
+.btn:hover {
   background-color: #6c8cff;
 }

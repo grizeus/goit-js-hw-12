@@ -9,8 +9,10 @@ export function clearGallery() {
   gallery.innerHTML = "";
 }
 
-export function renderGallery(fetchList) {
-  gallery.innerHTML = "";
+export function renderGallery(fetchList, isNewQuery) {
+  if (isNewQuery) {
+    gallery.innerHTML = "";
+  }
   const galleryMarkup = fetchList
     .map(picture => {
       const {
