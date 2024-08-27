@@ -1,2 +1,2 @@
-# goit-js-hw-11
-Eleventh homework for GoIT JS course
+# goit-js-hw-12
+Twelfth homework for GOIT JS course
