@@ -15,8 +15,17 @@ const moreLoader = document.querySelector(".more-loader");
 let totalHits = 0;
 let maxPages = 0;
 const perPage = 15;
-let curPage = 1;
 let searchQuery = "";
+
+const TOAST_CONFIG = {
+  titleSize: "16px",
+  maxWidth: "432px",
+  position: "topRight",
+  closeOnEscape: true,
+  icon: "error",
+  iconUrl: errSvg,
+  theme: "dark",
+};
 
 searchButton.addEventListener("click", async e => {
   e.preventDefault();
@@ -42,19 +51,16 @@ searchButton.addEventListener("click", async e => {
   maxPages = Math.ceil(totalHits / perPage);
 
   if (totalHits > 0) {
-    renderGallery(res[0].hits, true);
+    renderGallery(res);
   } else {
     clearGallery();
+    if (!loadButton.classList.contains("visually-hidden")) {
+      loadButton.classList.toggle("visually-hidden");
+    }
     iziToast.error({
-      titleSize: "16px",
+      ...TOAST_CONFIG,
       message:
         "Sorry, there are no images matching your search query. Please try again!",
-      maxWidth: "432px",
-      position: "topRight",
-      closeOnEscape: true,
-      icon: "error",
-      iconUrl: errSvg,
-      theme: "dark",
     });
   }
 });
@@ -67,20 +73,14 @@ loadButton.addEventListener("click", async e => {
 
   const res = await fetchFrom(searchQuery, perPage);
   moreLoader.classList.toggle("visually-hidden");
-  
+
   if (maxPages > res[1]) {
-    renderGallery(res[0].hits, false);
+    renderGallery(res);
     loadButton.classList.toggle("visually-hidden");
   } else {
     iziToast.error({
-      titleSize: "16px",
+      ...TOAST_CONFIG,
       message: "We're sorry, but you've reached the end of search results.",
-      maxWidth: "432px",
-      position: "topRight",
-      closeOnEscape: true,
-      icon: "error",
-      iconUrl: errSvg,
-      theme: "dark",
     });
   }
 });

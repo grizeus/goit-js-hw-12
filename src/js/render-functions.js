@@ -9,11 +9,11 @@ export function clearGallery() {
   gallery.innerHTML = "";
 }
 
-export function renderGallery(fetchList, isNewQuery) {
-  if (isNewQuery) {
+export function renderGallery(fetchData) {
+  if (fetchData[1] === 1) {
     gallery.innerHTML = "";
   }
-  const galleryMarkup = fetchList
+  const galleryMarkup = fetchData[0].hits
     .map(picture => {
       const {
         webformatURL,
