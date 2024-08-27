@@ -14,7 +14,7 @@ const loader = document.querySelector(".loader");
 searchButton.addEventListener("click", async e => {
   e.preventDefault();
   loader.classList.toggle("visually-hidden");
-  const searchQuery = searchInput.value;
+  const searchQuery = searchInput.value.trim();
   if (searchQuery === "") {
     if (!loader.classList.contains("visually-hidden")) {
       loader.classList.toggle("visually-hidden");
