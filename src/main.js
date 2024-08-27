@@ -75,7 +75,13 @@ loadButton.addEventListener("click", async e => {
   moreLoader.classList.toggle("visually-hidden");
 
   if (maxPages > res[1]) {
+    const galleryCardHeight = document.querySelector(".gallery-item").getBoundingClientRect().height;
     renderGallery(res);
+    window.scrollBy({
+      top: galleryCardHeight * 2,
+      left: 0,
+      behavior: "smooth"
+    });
     loadButton.classList.toggle("visually-hidden");
   } else {
     iziToast.error({
