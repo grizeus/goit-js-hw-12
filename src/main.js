@@ -38,6 +38,9 @@ searchButton.addEventListener("click", async e => {
     if (!topLoader.classList.contains("visually-hidden")) {
       topLoader.classList.toggle("visually-hidden");
     }
+    if (!loadButton.classList.contains("visually-hidden")) {
+      loadButton.classList.toggle("visually-hidden");
+    }
     clearGallery();
     return;
   }
