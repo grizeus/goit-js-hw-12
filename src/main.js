@@ -1,21 +1,27 @@
 "use strict";
 
-import fetchFrom, { resetPageCount } from "./js/pixabay-api.js";
-import { renderGallery, clearGallery } from "./js/render-functions.js";
+import fetchFrom from "./js/pixabay-api.js";
+import renderGallery from "./js/render-functions.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
+import simpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+import "./css/custom-slb.css";
 import errSvg from "./img/error.svg";
 
 const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search-btn");
-const loadButton = document.querySelector(".load-btn");
+const loadMoreButton = document.querySelector(".load-btn");
 const topLoader = document.querySelector(".in-loader");
 const moreLoader = document.querySelector(".more-loader");
-let totalHits = 0;
+const gallery = document.querySelector("ul.gallery-list");
+
+let curPage = 1;
 let maxPages = 0;
 const perPage = 15;
 let searchQuery = "";
+let galleryCardHeight = 0;
 
 const TOAST_CONFIG = {
   titleSize: "16px",
@@ -27,69 +33,93 @@ const TOAST_CONFIG = {
   theme: "dark",
 };
 
+const lightbox = new simpleLightbox(".gallery-list a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
+
 searchButton.addEventListener("click", async e => {
   e.preventDefault();
-  resetPageCount();
 
-  topLoader.classList.toggle("visually-hidden");
   searchQuery = searchInput.value.trim();
 
   if (searchQuery === "") {
-    if (!topLoader.classList.contains("visually-hidden")) {
-      topLoader.classList.toggle("visually-hidden");
-    }
-    if (!loadButton.classList.contains("visually-hidden")) {
-      loadButton.classList.toggle("visually-hidden");
-    }
-    clearGallery();
+    gallery.innerHTML = "";
+    loadMoreButton.classList.add("visually-hidden");
     return;
   }
 
-  const res = await fetchFrom(searchQuery, perPage);
-
+  if (!loadMoreButton.classList.contains("visually-hidden")) {
+    loadMoreButton.classList.remove("visually-hidden");
+  }
+  gallery.innerHTML = "";
   topLoader.classList.toggle("visually-hidden");
-  loadButton.classList.toggle("visually-hidden");
+  curPage = 1;
 
-  totalHits = parseInt(res[0].totalHits);
-  maxPages = Math.ceil(totalHits / perPage);
-
-  if (totalHits > 0) {
-    renderGallery(res);
-  } else {
-    clearGallery();
-    if (!loadButton.classList.contains("visually-hidden")) {
-      loadButton.classList.toggle("visually-hidden");
+  try {
+    const { data } = await fetchFrom(searchQuery, perPage, curPage);
+    if (!data.totalHits) {
+      gallery.innerHTML = "";
+      topLoader.classList.add("visually-hidden");
+      iziToast.error({
+        ...TOAST_CONFIG,
+        message:
+          "Sorry, there are no images matching your search query. Please try again!",
+      });
+      return;
     }
-    iziToast.error({
-      ...TOAST_CONFIG,
-      message:
-        "Sorry, there are no images matching your search query. Please try again!",
-    });
+
+    gallery.insertAdjacentHTML("beforeend", renderGallery(data));
+    topLoader.classList.add("visually-hidden");
+    loadMoreButton.classList.remove("visually-hidden");
+
+    if (data.totalHits < perPage) {
+      loadMoreButton.classList.add("visually-hidden");
+      iziToast.info({
+        position: "topRight",
+        message: "We're sorry, but you've reached the end of search results.",
+      });;
+    }
+    maxPages = Math.ceil(data.totalHits / perPage);
+    lightbox.refresh();
+  } catch (error) {
+    console.error(error);
+    return;
   }
 });
 
-loadButton.addEventListener("click", async e => {
+loadMoreButton.addEventListener("click", async e => {
   e.preventDefault();
 
-  moreLoader.classList.toggle("visually-hidden");
-  loadButton.classList.toggle("visually-hidden");
+  moreLoader.classList.remove("visually-hidden");
+  loadMoreButton.classList.add("visually-hidden");
 
-  const res = await fetchFrom(searchQuery, perPage);
-  moreLoader.classList.toggle("visually-hidden");
+  try {
+    const { data } = await fetchFrom(searchQuery, perPage, ++curPage);
+    gallery.insertAdjacentHTML("beforeend", renderGallery(data));
 
-  if (maxPages > res[1]) {
-    const galleryCardHeight = document.querySelector(".gallery-item").getBoundingClientRect().height;
-    renderGallery(res);
+    moreLoader.classList.add("visually-hidden");
+    loadMoreButton.classList.remove("visually-hidden");
+    lightbox.refresh();
+    if (!galleryCardHeight) {
+      galleryCardHeight = document
+        .querySelector(".gallery-item")
+        .getBoundingClientRect().height;
+    }
+
     window.scrollBy({
       top: galleryCardHeight * 2,
-      left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
-    loadButton.classList.toggle("visually-hidden");
-  } else {
-    iziToast.error({
-      ...TOAST_CONFIG,
-      message: "We're sorry, but you've reached the end of search results.",
-    });
+
+    if (maxPages === curPage) {
+      loadMoreButton.classList.add("visually-hidden");
+      iziToast.info({
+        position: "topRight",
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    }
+  } catch (error) {
+    console.error(error);
   }
 });
