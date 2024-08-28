@@ -1,19 +1,7 @@
 "use strict";
 
-import simpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-import "../css/custom-slb.css";
-
-const gallery = document.querySelector("ul.gallery-list");
-export function clearGallery() {
-  gallery.innerHTML = "";
-}
-
-export function renderGallery(fetchData) {
-  if (fetchData[1] === 1) {
-    gallery.innerHTML = "";
-  }
-  const galleryMarkup = fetchData[0].hits
+export default function renderGallery(fetchData) {
+  const galleryMarkup = fetchData.hits
     .map(picture => {
       const {
         webformatURL,
@@ -42,10 +30,5 @@ export function renderGallery(fetchData) {
     })
     .join("");
 
-  gallery.insertAdjacentHTML("beforeend", galleryMarkup);
-
-  const lightbox = new simpleLightbox(".gallery-list a", {
-    captionsData: "alt",
-    captionDelay: 250,
-  });
+  return galleryMarkup;
 }
