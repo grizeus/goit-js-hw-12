@@ -49,9 +49,6 @@ searchButton.addEventListener("click", async e => {
     return;
   }
 
-  if (!loadMoreButton.classList.contains("visually-hidden")) {
-    loadMoreButton.classList.remove("visually-hidden");
-  }
   gallery.innerHTML = "";
   topLoader.classList.toggle("visually-hidden");
   curPage = 1;
@@ -78,7 +75,7 @@ searchButton.addEventListener("click", async e => {
       iziToast.info({
         position: "topRight",
         message: "We're sorry, but you've reached the end of search results.",
-      });;
+      });
     }
     maxPages = Math.ceil(data.totalHits / perPage);
     lightbox.refresh();
