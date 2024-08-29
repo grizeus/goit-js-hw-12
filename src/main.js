@@ -55,6 +55,14 @@ searchButton.addEventListener("click", async e => {
 
   try {
     const { data } = await fetchFrom(searchQuery, perPage, curPage);
+
+    // remove load more button if backend returns empty array
+    if (!data.hits.length) {
+      if (!loadMoreButton.classList.contains("visually-hidden")) {
+        loadMoreButton.classList.add("visually-hidden");
+      }
+    }
+
     if (!data.totalHits) {
       gallery.innerHTML = "";
       topLoader.classList.add("visually-hidden");
