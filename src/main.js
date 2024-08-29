@@ -1,6 +1,6 @@
 "use strict";
 
-import fetchFrom from "./js/pixabay-api.js";
+import fetchFrom from "./js/pixabay-api.ts";
 import renderGallery from "./js/render-functions.ts";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
