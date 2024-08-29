@@ -1,8 +1,20 @@
-"use strict";
+interface Picture {
+  webformatURL: string;
+  largeImageURL: string;
+  tags: string[];
+  likes: number;
+  views: number;
+  comments: number;
+  downloads: number;
+}
 
-export default function renderGallery(fetchData) {
+interface FetchData {
+  hits: Picture[];
+}
+
+export default function renderGallery(fetchData: FetchData) {
   const galleryMarkup = fetchData.hits
-    .map(picture => {
+    .map((picture: Picture) => {
       const {
         webformatURL,
         largeImageURL,
