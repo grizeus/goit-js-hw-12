@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/goit-js-hw-12/",
-    "preview": "vite preview"
+    "build": "tsc && vite build --base=/goit-js-hw-12/",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "glob": "^11.0.0",
@@ -17,9 +18,11 @@
   "author": "Zaitsev Petro <zaytsewww@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^22.5.1",
     "axios": "^1.7.5",
     "izitoast": "^1.4.0",
     "simplelightbox": "^2.14.3",
+    "typescript": "^5.5.4",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-html-inject": "^1.1.2"
   }

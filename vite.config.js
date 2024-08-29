@@ -32,5 +32,8 @@ export default defineConfig(({ command }) => {
         sort: 'mobile-first',
       }),
     ],
+    resolve: {
+      extensions: ['.js', '.ts']
+    },
   };
 });

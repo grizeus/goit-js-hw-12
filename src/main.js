@@ -1,7 +1,7 @@
 "use strict";
 
 import fetchFrom from "./js/pixabay-api.js";
-import renderGallery from "./js/render-functions.js";
+import renderGallery from "./js/render-functions.ts";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
