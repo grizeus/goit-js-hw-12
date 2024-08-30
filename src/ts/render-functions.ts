@@ -27,7 +27,8 @@ export default function renderGallery(fetchData: FetchData) {
         downloads,
       } = picture;
 
-      const escapedTags = he.escape(tags.join(', '));
+      const escapedTags = he.encode(Array.isArray(tags) ? tags.join(', ') : tags);
+
       return `
         <li class="gallery-item">
             <a href="${he.escape(largeImageURL)}" target="_blank">
