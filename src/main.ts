@@ -1,5 +1,5 @@
-import fetchFrom from "./js/pixabay-api.js";
-import renderGallery from "./js/render-functions.js";
+import fetchFrom from "./ts/pixabay-api.ts";
+import renderGallery from "./ts/render-functions.ts";
 import iziToast, { IziToastSettings } from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
