@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build --base=/goit-js-hw-12/",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
   },
   "devDependencies": {
     "glob": "^11.0.0",
@@ -18,10 +19,13 @@
   "author": "Zaitsev Petro <zaytsewww@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.5.1",
     "axios": "^1.7.5",
     "izitoast": "^1.4.0",
+    "jest": "^29.7.0",
     "simplelightbox": "^2.14.3",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.5.4",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-html-inject": "^1.1.2"
