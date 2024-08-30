@@ -6,6 +6,7 @@ import "./css/custom-izitoast.css";
 import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import "./css/custom-slb.css";
+import errSvg from "./img/error.svg";
 
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
@@ -19,7 +20,6 @@ let maxPages: number = 0;
 const perPage: number = 15;
 let searchQuery: string = "";
 let galleryCardHeight: number = 0;
-const errSvg: string = "./img/error.svg";
 
 const TOAST_CONFIG: IziToastSettings = {
   titleSize: "16px",
