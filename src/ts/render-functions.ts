@@ -3,7 +3,7 @@ import he from "he";
 export interface Picture {
   webformatURL: string;
   largeImageURL: string;
-  tags: string[];
+  tags: string;
   likes: number | undefined;
   comments: number | undefined;
   views: number;
@@ -27,13 +27,11 @@ export default function renderGallery(fetchData: FetchData) {
         downloads,
       } = picture;
 
-      const escapedTags = he.encode(Array.isArray(tags) ? tags.join(', ') : tags);
-
       return `
         <li class="gallery-item">
             <a href="${he.escape(largeImageURL)}" target="_blank">
                 <div class="img-wrapper">
-                  <img class="gallery-image" src="${he.escape(webformatURL)}" alt="${escapedTags}" />
+                  <img class="gallery-image" src="${he.escape(webformatURL)}" alt="${he.escape(tags)}" />
                 </div>
             </a>
             <ul class="gallery-item-info">
