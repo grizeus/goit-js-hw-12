@@ -1,5 +1,5 @@
-import fetchFrom from "./ts/pixabay-api.ts";
-import renderGallery from "./ts/render-functions.ts";
+import fetchFrom from "./ts/pixabay-api";
+import renderGallery from "./ts/render-functions";
 import iziToast, { IziToastSettings } from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
@@ -7,6 +7,38 @@ import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import "./css/custom-slb.css";
 import errSvg from "./img/error.svg";
+
+export interface ResponseData {
+  total: number;
+  totalHits: number;
+  hits: ImageDetails[];
+}
+
+interface ImageDetails {
+  id: number;
+  pageURL?: string;
+  type?: string;
+  tags?: string;
+  previewURL?: string;
+  previewWidth?: number;
+  previewHeight?: number;
+  webformatURL?: string;
+  webformatWidth?: number;
+  webformatHeight?: number;
+  largeImageURL?: string;
+  fullHDURL?: string;
+  imageURL?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageSize?: number;
+  views?: number;
+  downloads?: number;
+  likes?: number;
+  comments?: number;
+  user_id?: number;
+  user?: string;
+  userImageURL?: string;
+}
 
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
@@ -123,7 +155,7 @@ loadMoreButton.addEventListener("click", async e => {
 });
 
 // remove load more button visibility if backend returns empty array
-export function handleEmptyResponse(data: any) {
+export function handleEmptyResponse(data: ResponseData) {
   if (!data.hits.length) {
     if (!loadMoreButton.classList.contains("visually-hidden")) {
       loadMoreButton.classList.add("visually-hidden");
