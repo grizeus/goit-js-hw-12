@@ -1,11 +1,16 @@
 import axios from "axios";
+import "dotenv/config";
 
-const API_KEY = "34523545-f21683fd59bfc3e4e2549fe07";
+const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = "https://pixabay.com/api";
 
 axios.defaults.baseURL = BASE_URL;
 
-export default async function fetchFrom(query: string, perPage?: number, curPage = 1) {
+export default async function fetchFrom(
+  query: string,
+  perPage?: number,
+  curPage = 1
+): Promise<any> {
   // set default perPage if not provided
   if (perPage === undefined || perPage === null || perPage < 1) {
     perPage = 15;

@@ -11,7 +11,7 @@ import errSvg from "./img/error.svg";
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
 const loadMoreButton = document.querySelector(".load-btn") as HTMLButtonElement;
-const topLoader= document.querySelector(".in-loader") as HTMLSpanElement;
+const topLoader = document.querySelector(".in-loader") as HTMLSpanElement;
 const moreLoader = document.querySelector(".more-loader") as HTMLSpanElement;
 const gallery = document.querySelector("ul.gallery-list") as HTMLUListElement;
 
@@ -54,12 +54,7 @@ searchButton?.addEventListener("click", async e => {
   try {
     const { data } = await fetchFrom(searchQuery, perPage, curPage);
 
-    // remove load more button if backend returns empty array
-    if (!data.hits.length) {
-      if (!loadMoreButton.classList.contains("visually-hidden")) {
-        loadMoreButton.classList.add("visually-hidden");
-      }
-    }
+    handleEmptyResponse(data);
 
     if (!data.totalHits) {
       gallery.innerHTML = "";
@@ -105,8 +100,9 @@ loadMoreButton.addEventListener("click", async e => {
     loadMoreButton.classList.remove("visually-hidden");
     lightbox.refresh();
     if (galleryCardHeight === 0) {
-      galleryCardHeight = document
-        .querySelector(".gallery-item")?.getBoundingClientRect().height ?? 0;
+      galleryCardHeight =
+        document.querySelector(".gallery-item")?.getBoundingClientRect()
+          .height ?? 0;
     }
 
     window.scrollBy({
@@ -125,3 +121,12 @@ loadMoreButton.addEventListener("click", async e => {
     console.error(error);
   }
 });
+
+// remove load more button visibility if backend returns empty array
+export function handleEmptyResponse(data: any) {
+  if (!data.hits.length) {
+    if (!loadMoreButton.classList.contains("visually-hidden")) {
+      loadMoreButton.classList.add("visually-hidden");
+    }
+  }
+}

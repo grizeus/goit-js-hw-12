@@ -47,7 +47,6 @@ describe("renderGallery", () => {
       ],
     };
     const result = renderGallery(mockData);
-    console.log(typeof result);
     expect(result.split('<li class="gallery-item">').length).toBe(3); // 2 items + 1 for split
   });
 
