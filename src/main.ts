@@ -22,15 +22,18 @@ const perPage: number = 15;
 let searchQuery: string = "";
 let galleryCardHeight: number = 0;
 
-//TODO: fix this
 const TOAST_CONFIG: IziToastSettings = {
   titleSize: "16px",
   maxWidth: 432,
   position: "topRight",
   closeOnEscape: true,
+  theme: "dark",
+};
+
+const ERR_TOAST_CONFIG: IziToastSettings = {
+  ...TOAST_CONFIG,
   icon: "error",
   iconUrl: errSvg,
-  theme: "dark",
 };
 
 const lightbox: simpleLightbox = new simpleLightbox(".gallery-list a", {
@@ -50,7 +53,7 @@ searchButton?.addEventListener("click", async e => {
   }
 
   gallery.innerHTML = "";
-  topLoader.classList.toggle("visually-hidden");
+  topLoader.classList.remove("visually-hidden");
   curPage = 1;
 
   try {
@@ -62,7 +65,7 @@ searchButton?.addEventListener("click", async e => {
       gallery.innerHTML = "";
       topLoader.classList.add("visually-hidden");
       iziToast.error({
-        ...TOAST_CONFIG,
+        ...ERR_TOAST_CONFIG,
         message:
           "Sorry, there are no images matching your search query. Please try again!",
       });
@@ -76,7 +79,7 @@ searchButton?.addEventListener("click", async e => {
     if (data.totalHits < perPage) {
       loadMoreButton.classList.add("visually-hidden");
       iziToast.info({
-        position: "topRight",
+        ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
@@ -90,20 +93,20 @@ searchButton?.addEventListener("click", async e => {
       topLoader.classList.add("visually-hidden");
     }
     if (error instanceof AxiosError) {
-      console.error('Axios Error:', error.message);
-      console.error('Error Details:', error.config);
+      console.error("Axios Error:", error.message);
+      console.error("Error Details:", error.config);
       iziToast.error({
-        ...TOAST_CONFIG,
-        position: "topRight",
+        ...ERR_TOAST_CONFIG,
         message: `Sorry, error occured: ${error.message}. Please try again!`,
       });
 
-      setTimeout(() => { fetchFrom(searchQuery, perPage, curPage); }, 2000);
+      setTimeout(() => {
+        fetchFrom(searchQuery, perPage, curPage);
+      }, 2000);
     } else {
       console.error(error);
       iziToast.error({
-        ...TOAST_CONFIG,
-        position: "topRight",
+        ...ERR_TOAST_CONFIG,
         message: "Sorry, unexpected error occured. Please try again!",
       });
     }
@@ -137,7 +140,7 @@ loadMoreButton.addEventListener("click", async e => {
     if (maxPages === curPage) {
       loadMoreButton.classList.add("visually-hidden");
       iziToast.info({
-        position: "topRight",
+        ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
@@ -151,17 +154,17 @@ loadMoreButton.addEventListener("click", async e => {
     }
     if (error instanceof AxiosError) {
       iziToast.error({
-        ...TOAST_CONFIG,
-        position: "topRight",
+        ...ERR_TOAST_CONFIG,
         message: `Sorry, error occured: ${error.message}. Please try again!`,
       });
 
-      setTimeout(() => { fetchFrom(searchQuery, perPage, curPage); }, 2000);
+      setTimeout(() => {
+        fetchFrom(searchQuery, perPage, curPage);
+      }, 2000);
     } else {
       console.error(error);
       iziToast.error({
-        ...TOAST_CONFIG,
-        position: "topRight",
+        ...ERR_TOAST_CONFIG,
         message: "Sorry, unexpected error occured. Please try again!",
       });
     }
