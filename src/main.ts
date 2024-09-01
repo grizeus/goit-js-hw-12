@@ -22,6 +22,7 @@ const perPage: number = 15;
 let searchQuery: string = "";
 let galleryCardHeight: number = 0;
 
+//TODO: fix this
 const TOAST_CONFIG: IziToastSettings = {
   titleSize: "16px",
   maxWidth: 432,
