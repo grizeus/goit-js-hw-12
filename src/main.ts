@@ -7,6 +7,7 @@ import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import "./css/custom-slb.css";
 import errSvg from "./img/error.svg";
+import { AxiosError } from "axios";
 
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
@@ -81,8 +82,30 @@ searchButton?.addEventListener("click", async e => {
     maxPages = Math.ceil(data.totalHits / perPage);
     lightbox.refresh();
   } catch (error) {
-    console.error(error);
-    return;
+    if (!loadMoreButton.classList.contains("visually-hidden")) {
+      loadMoreButton.classList.add("visually-hidden");
+    }
+    if (!topLoader.classList.contains("visually-hidden")) {
+      topLoader.classList.add("visually-hidden");
+    }
+    if (error instanceof AxiosError) {
+      console.error('Axios Error:', error.message);
+      console.error('Error Details:', error.config);
+      iziToast.error({
+        ...TOAST_CONFIG,
+        position: "topRight",
+        message: `Sorry, error occured: ${error.message}. Please try again!`,
+      });
+
+      setTimeout(() => { fetchFrom(searchQuery, perPage, curPage); }, 2000);
+    } else {
+      console.error(error);
+      iziToast.error({
+        ...TOAST_CONFIG,
+        position: "topRight",
+        message: "Sorry, unexpected error occured. Please try again!",
+      });
+    }
   }
 });
 
@@ -119,6 +142,28 @@ loadMoreButton.addEventListener("click", async e => {
     }
   } catch (error) {
     console.error(error);
+    if (!loadMoreButton.classList.contains("visually-hidden")) {
+      loadMoreButton.classList.add("visually-hidden");
+    }
+    if (!moreLoader.classList.contains("visually-hidden")) {
+      moreLoader.classList.add("visually-hidden");
+    }
+    if (error instanceof AxiosError) {
+      iziToast.error({
+        ...TOAST_CONFIG,
+        position: "topRight",
+        message: `Sorry, error occured: ${error.message}. Please try again!`,
+      });
+
+      setTimeout(() => { fetchFrom(searchQuery, perPage, curPage); }, 2000);
+    } else {
+      console.error(error);
+      iziToast.error({
+        ...TOAST_CONFIG,
+        position: "topRight",
+        message: "Sorry, unexpected error occured. Please try again!",
+      });
+    }
   }
 });
 
