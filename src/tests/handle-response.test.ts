@@ -1,4 +1,4 @@
-import { handleEmptyResponse, ResponseData } from "../main";
+import { handleEmptyResponse } from "../main";
 
 describe("handleEmptyResponse", () => {
   let loadMoreButton: HTMLButtonElement;
@@ -27,7 +27,7 @@ describe("handleEmptyResponse", () => {
   });
 
   it('should not add "visually-hidden" class to loadMoreButton when data.hits is not empty', () => {
-    const mockData: ResponseData = {total : 42, totalHits : 2,  hits: [{ id : 1 }, { id : 2 }] }; // Mock non-empty response
+    const mockData = {total : 42, totalHits : 2,  hits: [{ id : 1 }, { id : 2 }] }; // Mock non-empty response
 
     handleEmptyResponse(mockData);
 
