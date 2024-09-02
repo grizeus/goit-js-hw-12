@@ -41,7 +41,7 @@ const lightbox: simpleLightbox = new simpleLightbox(".gallery-list a", {
   captionDelay: 250,
 });
 
-searchButton?.addEventListener("click", async e => {
+searchButton.addEventListener("click", async e => {
   e.preventDefault();
 
   searchQuery = searchInput?.value.trim() ?? "";
