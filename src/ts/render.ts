@@ -1,10 +1,12 @@
-interface Picture {
+import he from "he";
+
+export interface Picture {
   webformatURL: string;
   largeImageURL: string;
-  tags: string[];
-  likes: number;
+  tags: string;
+  likes: number | undefined;
+  comments: number | undefined;
   views: number;
-  comments: number;
   downloads: number;
 }
 
@@ -24,11 +26,12 @@ export default function renderGallery(fetchData: FetchData) {
         comments,
         downloads,
       } = picture;
+
       return `
         <li class="gallery-item">
-            <a href="${largeImageURL}" target="_blank">
+            <a href="${he.escape(largeImageURL)}" target="_blank">
                 <div class="img-wrapper">
-                  <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
+                  <img class="gallery-image" src="${he.escape(webformatURL)}" alt="${he.escape(tags)}" />
                 </div>
             </a>
             <ul class="gallery-item-info">

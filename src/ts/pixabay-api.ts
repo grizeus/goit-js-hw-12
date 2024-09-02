@@ -1,11 +1,15 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-const API_KEY = "34523545-f21683fd59bfc3e4e2549fe07";
-const BASE_URL = "https://pixabay.com/api";
+export const API_KEY = "34523545-f21683fd59bfc3e4e2549fe07";
+export const BASE_URL = "https://pixabay.com/api";
 
 axios.defaults.baseURL = BASE_URL;
 
-export default async function fetchFrom(query: string, perPage?: number, curPage = 1) {
+export default async function fetchFrom(
+  query: string,
+  perPage?: number,
+  curPage = 1
+): Promise<AxiosResponse> {
   // set default perPage if not provided
   if (perPage === undefined || perPage === null || perPage < 1) {
     perPage = 15;
@@ -21,5 +25,5 @@ export default async function fetchFrom(query: string, perPage?: number, curPage
     page: curPage,
   };
 
-  return axios.get("/", { params });
+  return await axios.get("/", { params });
 }

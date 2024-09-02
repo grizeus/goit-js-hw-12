@@ -1,17 +1,26 @@
-import fetchFrom from "./ts/pixabay-api.ts";
-import renderGallery from "./ts/render-functions.ts";
-import iziToast, { IziToastSettings } from "izitoast";
+import fetchFrom from "./ts/pixabay-api";
+import renderGallery from "./ts/render";
+import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
 import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import "./css/custom-slb.css";
-import errSvg from "./img/error.svg";
+import {
+  ERR_TOAST_CONFIG,
+  TOAST_CONFIG,
+  handleEmptyResponse,
+  validateSearchQuery,
+  addVisibility,
+  removeVisibility,
+  handleError,
+  scrollBy,
+} from "./ts/helpers";
 
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
 const loadMoreButton = document.querySelector(".load-btn") as HTMLButtonElement;
-const topLoader= document.querySelector(".in-loader") as HTMLSpanElement;
+const topLoader = document.querySelector(".in-loader") as HTMLSpanElement;
 const moreLoader = document.querySelector(".more-loader") as HTMLSpanElement;
 const gallery = document.querySelector("ul.gallery-list") as HTMLUListElement;
 
@@ -21,107 +30,71 @@ const perPage: number = 15;
 let searchQuery: string = "";
 let galleryCardHeight: number = 0;
 
-const TOAST_CONFIG: IziToastSettings = {
-  titleSize: "16px",
-  maxWidth: 432,
-  position: "topRight",
-  closeOnEscape: true,
-  icon: "error",
-  iconUrl: errSvg,
-  theme: "dark",
-};
-
 const lightbox: simpleLightbox = new simpleLightbox(".gallery-list a", {
   captionsData: "alt",
   captionDelay: 250,
 });
 
-searchButton?.addEventListener("click", async e => {
+searchButton.addEventListener("click", async e => {
   e.preventDefault();
 
   searchQuery = searchInput?.value.trim() ?? "";
-
-  if (searchQuery === "") {
-    gallery.innerHTML = "";
-    loadMoreButton.classList.add("visually-hidden");
+  if (!validateSearchQuery(searchQuery, gallery, loadMoreButton, topLoader)) {
     return;
   }
-
-  gallery.innerHTML = "";
-  topLoader.classList.toggle("visually-hidden");
   curPage = 1;
 
   try {
     const { data } = await fetchFrom(searchQuery, perPage, curPage);
 
-    // remove load more button if backend returns empty array
-    if (!data.hits.length) {
-      if (!loadMoreButton.classList.contains("visually-hidden")) {
-        loadMoreButton.classList.add("visually-hidden");
-      }
-    }
-
-    if (!data.totalHits) {
-      gallery.innerHTML = "";
-      topLoader.classList.add("visually-hidden");
-      iziToast.error({
-        ...TOAST_CONFIG,
-        message:
-          "Sorry, there are no images matching your search query. Please try again!",
-      });
-      return;
-    }
+    handleEmptyResponse(data, gallery, topLoader, loadMoreButton, moreLoader);
 
     gallery.insertAdjacentHTML("beforeend", renderGallery(data));
-    topLoader.classList.add("visually-hidden");
-    loadMoreButton.classList.remove("visually-hidden");
+    removeVisibility(topLoader);
+    addVisibility(loadMoreButton);
 
     if (data.totalHits < perPage) {
-      loadMoreButton.classList.add("visually-hidden");
+      removeVisibility(loadMoreButton);
       iziToast.info({
-        position: "topRight",
+        ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
     maxPages = Math.ceil(data.totalHits / perPage);
     lightbox.refresh();
-  } catch (error) {
-    console.error(error);
-    return;
+  } catch (error: any) {
+    handleError(error, loadMoreButton, topLoader, moreLoader);
   }
 });
 
 loadMoreButton.addEventListener("click", async e => {
   e.preventDefault();
 
-  moreLoader.classList.remove("visually-hidden");
-  loadMoreButton.classList.add("visually-hidden");
+  addVisibility(moreLoader);
+  removeVisibility(loadMoreButton);
 
   try {
     const { data } = await fetchFrom(searchQuery, perPage, ++curPage);
+
+    handleEmptyResponse(data, gallery, topLoader, loadMoreButton, moreLoader);
+
     gallery.insertAdjacentHTML("beforeend", renderGallery(data));
 
-    moreLoader.classList.add("visually-hidden");
-    loadMoreButton.classList.remove("visually-hidden");
-    lightbox.refresh();
-    if (galleryCardHeight === 0) {
-      galleryCardHeight = document
-        .querySelector(".gallery-item")?.getBoundingClientRect().height ?? 0;
-    }
+    removeVisibility(moreLoader);
+    addVisibility(loadMoreButton);
 
-    window.scrollBy({
-      top: galleryCardHeight * 2,
-      behavior: "smooth",
-    });
+    lightbox.refresh();
+
+    scrollBy(galleryCardHeight);
 
     if (maxPages === curPage) {
       loadMoreButton.classList.add("visually-hidden");
       iziToast.info({
-        position: "topRight",
+        ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    handleError(error, loadMoreButton, topLoader, moreLoader);
   }
 });
