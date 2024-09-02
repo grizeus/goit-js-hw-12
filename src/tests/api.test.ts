@@ -1,17 +1,17 @@
 import axios from "axios";
-import "dotenv/config";
 import fetchFrom from "../ts/pixabay-api";
+import { vi, describe, beforeEach, it, expect } from "vitest";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = "https://pixabay.com/api";
 
-jest.mock("axios");
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+vi.mock("axios");
+const mockedAxios = vi.mocked(axios);
 mockedAxios.defaults.baseURL = BASE_URL;
 
 describe("fetchFrom function", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should call axios with correct default params", async () => {

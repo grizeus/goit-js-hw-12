@@ -1,4 +1,5 @@
 import renderGallery, { Picture } from "../ts/render-functions";
+import { describe, expect, it } from "vitest";
 import he from "he";
 
 describe("renderGallery", () => {
