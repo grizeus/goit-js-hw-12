@@ -7,7 +7,6 @@ import simpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import "./css/custom-slb.css";
 import {
-  ERR_TOAST_CONFIG,
   TOAST_CONFIG,
   handleEmptyResponse,
   validateSearchQuery,
