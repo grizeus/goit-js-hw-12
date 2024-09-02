@@ -28,7 +28,7 @@ export function handleEmptyResponse(
   if (!data.totalHits) {
     gallery.innerHTML = "";
     removeVisibility(topLoader);
-    iziToast.error({
+    iziToast.default.error({
       ...ERR_TOAST_CONFIG,
       message:
         "Sorry, there are no images matching your search query. Please try again!",
@@ -90,13 +90,13 @@ export function handleError(
   if (error instanceof AxiosError) {
     console.error("Axios Error:", error.message);
     console.error("Error Details:", error.config);
-    iziToast.error({
+    iziToast.default.error({
       ...ERR_TOAST_CONFIG,
       message: `Sorry, error occurred: ${error.message}. Please try again!`,
     });
   } else {
     console.error(error);
-    iziToast.error({
+    iziToast.default.error({
       ...ERR_TOAST_CONFIG,
       message: "Sorry, unexpected error occurred. Please try again!",
     });

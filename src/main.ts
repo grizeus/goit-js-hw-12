@@ -1,5 +1,5 @@
-import fetchFrom from "./ts/pixabay-api";
-import renderGallery from "./ts/render";
+import fetchFrom from "./ts/pixabay-api.ts";
+import renderGallery from "./ts/render.ts";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import "./css/custom-izitoast.css";
@@ -14,7 +14,7 @@ import {
   removeVisibility,
   handleError,
   scrollBy,
-} from "./ts/helpers";
+} from "./ts/helpers.ts";
 
 const searchInput = document.querySelector(".search-input") as HTMLInputElement;
 const searchButton = document.querySelector(".search-btn") as HTMLButtonElement;
@@ -54,7 +54,7 @@ searchButton.addEventListener("click", async e => {
 
     if (data.totalHits < perPage) {
       removeVisibility(loadMoreButton);
-      iziToast.info({
+      iziToast.default.info({
         ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
@@ -88,7 +88,7 @@ loadMoreButton.addEventListener("click", async e => {
 
     if (maxPages === curPage) {
       loadMoreButton.classList.add("visually-hidden");
-      iziToast.info({
+      iziToast.default.info({
         ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });

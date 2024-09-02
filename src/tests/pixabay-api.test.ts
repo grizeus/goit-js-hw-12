@@ -1,7 +1,7 @@
 import axios from "axios";
-import fetchFrom from "../ts/pixabay-api";
+import fetchFrom from "../ts/pixabay-api.ts";
 import { vi, describe, beforeEach, it, expect } from "vitest";
-import { API_KEY, BASE_URL } from "../ts/pixabay-api";
+import { API_KEY, BASE_URL } from "../ts/pixabay-api.ts";
 
 vi.mock("axios");
 const mockedAxios = vi.mocked(axios);
