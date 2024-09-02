@@ -62,7 +62,7 @@ describe("fetchFrom function", () => {
 
   it("should return the correct response", async () => {
     const mockResponse = { data: "test data" };
-    mockedAxios.get.mockResolvedValue(mockResponse);
+    vi.mocked(axios.get).mockResolvedValue(mockResponse);
 
     const res = await fetchFrom("test");
     expect(res).toBe(mockResponse);
@@ -70,7 +70,7 @@ describe("fetchFrom function", () => {
 
   it("should throw an error if axios.get fails", async () => {
     const errorMsg = "Network Error";
-    mockedAxios.get.mockImplementationOnce(() =>
+    vi.mocked(axios.get).mockImplementationOnce(() =>
       Promise.reject(new Error(errorMsg))
     );
 
