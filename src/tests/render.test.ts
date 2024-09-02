@@ -1,4 +1,4 @@
-import renderGallery, { Picture } from "../ts/render-functions";
+import renderGallery, { Picture } from "../ts/render";
 import { describe, expect, it } from "vitest";
 import he from "he";
 

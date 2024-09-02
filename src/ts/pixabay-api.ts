@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-const BASE_URL = "https://pixabay.com/api";
+export const API_KEY = "34523545-f21683fd59bfc3e4e2549fe07";
+export const BASE_URL = "https://pixabay.com/api";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -25,5 +25,5 @@ export default async function fetchFrom(
     page: curPage,
   };
 
-  return (await axios.get("/", { params }));
+  return await axios.get("/", { params });
 }
