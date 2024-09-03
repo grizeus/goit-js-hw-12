@@ -41,7 +41,7 @@ describe("handleEmptyResponse", () => {
 
     expect(gallery.innerHTML).toBe("");
     expect(topLoader.classList.contains("visually-hidden")).toBe(true); // it should remove 'visually-hidden'
-    expect(izitoast.default.error).toHaveBeenCalledWith({
+    expect(izitoast.error).toHaveBeenCalledWith({
       ...ERR_TOAST_CONFIG,
       message:
         "Sorry, there are no images matching your search query. Please try again!",
@@ -128,7 +128,7 @@ describe("handleError", () => {
     expect(loadMoreButton.classList.contains("visually-hidden")).toBe(true);
     expect(topLoader.classList.contains("visually-hidden")).toBe(true);
     expect(moreLoader.classList.contains("visually-hidden")).toBe(true);
-    expect(izitoast.default.error).toHaveBeenCalledWith({
+    expect(izitoast.error).toHaveBeenCalledWith({
       ...ERR_TOAST_CONFIG,
       message: "Sorry, unexpected error occurred. Please try again!",
     });

@@ -45,23 +45,25 @@ searchButton.addEventListener("click", async e => {
 
   try {
     const { data } = await fetchFrom(searchQuery, perPage, curPage);
-
-    handleEmptyResponse(data, gallery, topLoader, loadMoreButton, moreLoader);
+    
+    if (!handleEmptyResponse(data, gallery, topLoader, loadMoreButton, moreLoader)) {
+      return;
+    }
 
     gallery.insertAdjacentHTML("beforeend", renderGallery(data));
     removeVisibility(topLoader);
     addVisibility(loadMoreButton);
 
-    if (data.totalHits < perPage) {
+    if (data.totalHits && data.totalHits < perPage) {
       removeVisibility(loadMoreButton);
-      iziToast.default.info({
+      iziToast.info({
         ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
     maxPages = Math.ceil(data.totalHits / perPage);
     lightbox.refresh();
-  } catch (error: any) {
+  } catch (error) {
     handleError(error, loadMoreButton, topLoader, moreLoader);
   }
 });
@@ -87,8 +89,8 @@ loadMoreButton.addEventListener("click", async e => {
     scrollBy(galleryCardHeight);
 
     if (maxPages === curPage) {
-      loadMoreButton.classList.add("visually-hidden");
-      iziToast.default.info({
+      removeVisibility(loadMoreButton);
+      iziToast.info({
         ...TOAST_CONFIG,
         message: "We're sorry, but you've reached the end of search results.",
       });

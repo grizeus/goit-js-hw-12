@@ -24,22 +24,21 @@ export function handleEmptyResponse(
   topLoader: HTMLElement,
   loadMoreButton: HTMLButtonElement,
   moreLoader: HTMLElement
-): void {
-  if (!data.totalHits) {
+): boolean {
+  if (!data.hits.length) {
     gallery.innerHTML = "";
     removeVisibility(topLoader);
-    iziToast.default.error({
+    removeVisibility(loadMoreButton);
+    removeVisibility(moreLoader);
+    iziToast.error({
       ...ERR_TOAST_CONFIG,
       message:
         "Sorry, there are no images matching your search query. Please try again!",
     });
-    return;
+    return false;
   }
 
-  if (!data.hits.length) {
-    removeVisibility(loadMoreButton);
-    removeVisibility(moreLoader);
-  }
+  return true;
 }
 
 export function validateSearchQuery(
@@ -48,7 +47,6 @@ export function validateSearchQuery(
   loadBtn: HTMLButtonElement,
   topLoader: HTMLSpanElement
 ): boolean {
-
   if (query === "") {
     gallery.innerHTML = "";
     removeVisibility(loadBtn);
@@ -78,7 +76,7 @@ export function removeVisibility(element: HTMLElement): void {
 }
 
 export function handleError(
-  error: any,
+  error: unknown,
   loadMoreButton: HTMLButtonElement,
   topLoader: HTMLSpanElement,
   moreLoader: HTMLSpanElement
@@ -90,13 +88,13 @@ export function handleError(
   if (error instanceof AxiosError) {
     console.error("Axios Error:", error.message);
     console.error("Error Details:", error.config);
-    iziToast.default.error({
+    iziToast.error({
       ...ERR_TOAST_CONFIG,
       message: `Sorry, error occurred: ${error.message}. Please try again!`,
     });
   } else {
     console.error(error);
-    iziToast.default.error({
+    iziToast.error({
       ...ERR_TOAST_CONFIG,
       message: "Sorry, unexpected error occurred. Please try again!",
     });
