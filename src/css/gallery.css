@@ -19,7 +19,7 @@
 }
 
 .gallery-item:hover {
-  scale: 104%;
+  scale: 107%;
 }
 
 .gallery-image {
@@ -57,3 +57,40 @@
 .gallery-item-info li b {
   display: block;
 }
+
+.gallery-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.gallery-item {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border: 1px solid var(--pale-grey);
+  overflow: hidden;
+  transition: scale 250ms var(--cubic) 0ms;
+}
+In this updated version, we're using the grid-template-columns property to define a repeating grid template with three columns. Each column is defined as minmax(0, 1fr), which means it will take up an equal share of the available space.
+
+
+The gap property is still used to add some spacing between the items.
+
+
+When there are less than 3 items in the response, the grid will automatically adjust its layout to fit the available space. This should improve the overall look and feel of your gallery when it has fewer items.
+
+
+Note that you can also use other CSS Grid properties like grid-template-rows, grid-auto-rows, or auto-flow to customize the grid's behavior depending on your specific needs.
+
+
+
+
+
+
+
+
+
+
+
+
