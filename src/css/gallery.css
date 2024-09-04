@@ -2,25 +2,23 @@
 
 .gallery-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  gap: 16px;
   margin-top: 24px;
-}
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 
-@media screen and (max-width: 1200px) {
-  .gallery-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, max(300px));
+    gap: 24px;
   }
-  
-}
-
-@media screen and (max-width: 768px) {
-  .gallery-list {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 16px;
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(3, max(300px));
   }
-  
+  @media screen and (min-width: 1440px) {
+    grid-template-columns: repeat(4, max(300px));
+  }
+  @media screen and (min-width: 1600px) {
+    grid-template-columns: repeat(5, max(300px));
+  }
 }
 
 .gallery-item {
